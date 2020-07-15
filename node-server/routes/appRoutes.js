@@ -250,11 +250,23 @@ module.exports = (app, db) => {
                 })
             })
             .catch(err => {
-                console.log(err)
+                res.status(500).send('failed')
             })
         } else {
             if(req.user.profile.twitterTag){
-                res.send('complete done')
+                facebook_fetch(req.user.accessToken)
+                .then(facebook_data => {
+                    twitter_fetch(req.user.profile.twitterTag)
+                    .then(twitter_data => {
+                        
+                    })
+                    .catch(error => {
+                        res.status(500).send('failed')
+                    })
+                })
+                .catch(err => { 
+                    res.status(500).send('failed')
+                })
             } else {
                 res.status(400).send('Twitter username missing, hence cannot perform complete analysis')
             }

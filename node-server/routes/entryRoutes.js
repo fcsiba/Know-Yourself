@@ -67,7 +67,6 @@ module.exports = (app, db) => {
             fetchByID(db, 'users', String(req.user.profile._json.id))
             .then(data => {
                 req.user.profile.twitterTag = data.twitterTag;
-                console.log(data)
                 res.send({...req.user, profile: {...req.user.profile,twitterTag: data.twitterTag, facebook_save: data.facebook_save, twitter_save: data.twitter_save},analysis: data.analysis});                    
             })
             .catch(error => {
