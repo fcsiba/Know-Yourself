@@ -1,0 +1,316 @@
+// Variables
+
+$fb-blue: #3b5998;
+
+// End of Variables
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    position: relative;
+}
+
+.loading-screen {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(224, 255, 255, 0.479);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    flex-direction: column;
+    .wrapper {
+        padding: 10px;
+        max-width: 90vw;
+        width: 50%;
+        min-width: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0px 0px 30px 5px lighten($fb-blue, 30%);
+
+    }
+    .text {
+        color: $fb-blue;
+        text-align: center;
+    }
+   
+}
+
+.entry {
+    &.main-view {
+        height: 100vh;
+        padding: 0;
+    }
+    .logo-holder {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 30%;
+        background-image: linear-gradient(-10deg, white 49.9%, rgb(217, 251, 255) 50%);
+        img {
+            width: 80%;
+        }
+    }
+    .text-holder {
+        height: 10%;
+        text-align: center;
+        color: $fb-blue;
+    }
+    .login-button-holder {
+        height: 20%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        button {
+            background-color: $fb-blue !important;
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+    }
+    .meta-holder {
+        height: 40%;
+        background-image: linear-gradient(-10deg, rgb(217, 251, 255) 49.9%, white 50%);
+    }
+}
+
+.view {
+    &-holder {
+        margin-top: 1rem;
+    }
+    &-header {
+        &-holder {
+            padding-bottom: 2rem;
+        }
+        border-bottom: 1px solid rgb(214, 214, 214);
+        color: $fb-blue;
+        padding-bottom: 10px;
+    }
+}
+
+.space {
+    &-1rem {
+       margin-top: 1rem; 
+    }
+    &-2rem {
+        margin-top: 2rem; 
+    }
+    &-3rem {
+        margin-top: 3rem; 
+    }
+}
+
+.message {
+    &-box {
+        position: absolute;
+        right: 15px;
+        top: 10px;
+        z-index: 1;
+        max-width: 50vw;
+        min-width: 150px;
+        &.success {
+            background-color: rgba(0, 194, 120, 0.938);
+        }
+        &.error {
+            background-color: rgba(255, 17, 0, 0.829);
+        }
+    }
+    &-text {
+        pointer-events: none;
+        color: white;
+        padding: 1rem 1.5rem;
+    }
+}
+
+.bottom {
+    &.appBar {
+        top: 'auto';
+        bottom: 0;
+        left: 0;
+        right: 0 ;
+        padding: 0;
+    }
+}
+
+.topbar {
+    background-color: $fb-blue !important;
+}
+
+.toolbar {
+    background-color: $fb-blue;
+    // width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 10px 10px;
+    button {
+        &.selected {
+            color: $fb-blue;
+            border: 1px solid white;
+            background-color: white;
+        }
+        color: white;
+        &:focus {
+            outline: none;
+        }
+        border: 1px solid white;
+        background-color: $fb-blue;
+        border-radius: 10px;
+        min-width: 100px;
+        .icon {
+
+        }
+        .text {
+
+        }
+    }
+}
+   
+.analysis {
+    &_processing {
+        padding: 1rem;
+        text-align: center !important;
+        .animation {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            > div {
+                width: 50% !important;
+                min-width: 100px;
+            }
+        }
+        .check-report {
+            background-color: $fb-blue;
+        }
+        .go-back {
+            background-color: grey;
+        }
+    }
+    &_warning {
+        padding: 1rem;
+        > div {
+            display: flex;
+            align-items: center;
+        }
+    }
+    .buttonview {
+        button {
+            background-color: $fb-blue !important;
+            &.disabled {
+                background-color: lightgrey !important;
+            }
+        }
+
+    }
+}
+
+.recharts-wrapper {
+    font-family: 'Helvetica';
+}
+
+.report {
+    .close {
+        background-color: $fb-blue !important;
+    }
+    &-header {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 0.5rem;
+    }
+    &-title {
+        flex: 1;
+    }
+}
+
+.history {
+    &_wrapper {
+
+    }
+    &_time {
+        font-size: 0.9rem !important;
+    }
+    &_card {
+        display: flex;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    &_info {
+        flex: 4;
+    }
+    &_icon {
+        flex: 1;
+    }
+    &_type {
+        display: flex;
+        align-items: center;
+        color: grey;
+        * {
+            font-size: 0.9rem !important;
+            font-weight: bold !important;
+        }
+    }
+}
+
+#inner-view {
+    // height: 300px !important;
+    overflow: scroll;
+}
+
+.setting {
+    &-checkbox-holder {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+    }
+}
+
+.search-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border-bottom: 1px solid rgb(214, 214, 214);
+    > * {
+        width: 100%;
+    }
+    &-meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: grey;
+        * {
+            font-size: 0.7rem !important;
+        }
+        border-bottom: 1px solid rgb(214, 214, 214);
+        margin-bottom: 3px;
+    }
+    &-socialmedia {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    &-text {
+        * {
+            font-size: 1.1rem !important;
+        }
+    }
+    &-sentiment {
+        width: 100%;
+        div {
+            padding: 2px 5px !important;
+            display: inline-block;
+            background-color: $fb-blue;
+            border-radius: 10px;
+        }
+        text-align: right;
+        color: white;
+    }
+}
