@@ -2,7 +2,6 @@
 
 # Know Yourself
 ### Sentiment analysis using social media
-Chatterfly is a simple online chat application where users can connect with each other using just their mobile numbers.
 
 ## Technologies and Services used
   - React.JS with Redux
