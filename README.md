@@ -1,8 +1,10 @@
 
 ![alt logo](https://raw.githubusercontent.com/fcsiba/Know-Yourself/master/client/src/media/Logo.png)
+
 # Know Yourself (KYS)
 **Sentiment analysis using social media**
 KYS is mobile-first web application that combines the power of social media and machine learning to derive the sentiments of the user.
+
 ## Technologies and services used
   - React.JS with Redux
   - Node JS with Express and Passport.JS
@@ -10,6 +12,7 @@ KYS is mobile-first web application that combines the power of social media and 
   - Rethink DB
   - SASS
   - Facebook Graph API and Twitter Developer API
+
 ## Project Dependencies
 - Node JS
 - Flask
@@ -27,3 +30,5 @@ KYS is mobile-first web application that combines the power of social media and 
 - Run the `index.py` file in the `flask-server` folder
 - Run the `index.js` file in the `node-server` folder
 - Run `npm start` in the `client`folder
+
+Watch a demo of the project here => [a link](https://www.youtube.com/watch?v=zU9aX5eMllI
