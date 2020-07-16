@@ -4,8 +4,8 @@ const INITIAL_STATE = {
     analysis_state: 0, // 0 => button view, 1 => performing, 2 => completed 
     ongoing_analysis: null,
     historical_data: [],
-    selected_report: null,
-    report_view: false,
+    selected_report: 1594820859288,
+    report_view: true,
     profile: null,
     search_data_loaded: false,
     search_data: []

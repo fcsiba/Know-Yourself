@@ -51,6 +51,25 @@ const HistoryCard = (props) => {
     )
 }
 
+const complete_dominant_emotion_deriver = (fb_data, twitter_data) => {
+    if (fb_data && twitter_data){
+        let collect = [fb_data.complete_analysis, twitter_data.complete_analysis];
+        const result = {};
+        Object.values(collect).forEach(basket => {
+            for (let [key, value] of Object.entries(basket)) {
+                if (result[key]) { 
+                    result[key] += value; 
+                } else { 
+                    result[key] = value;
+                }
+            }
+        });
+        return dominant_emotion_deriver(result);
+    } else {
+        return '';
+    }
+}
+
 const dominant_emotion_deriver = (data) => {
     let dominant = '';
     let max_num = 0;
@@ -100,7 +119,7 @@ function HistoryView(props) {
                         id={x}
                         type={props.historical_data[x].type}
                         time={time_formatter(props.historical_data[x].time)}
-                        dominant_emotion={dominant_emotion_deriver(props.historical_data[x].complete_analysis)}
+                        dominant_emotion={props.historical_data[x].type == 'complete'? complete_dominant_emotion_deriver(props.historical_data[x].facebook, props.historical_data[x].twitter):dominant_emotion_deriver(props.historical_data[x].complete_analysis)}
                     />
                     )
                 }):null
@@ -112,6 +131,7 @@ function HistoryView(props) {
 }
 
 const mstp = (state) => {
+    console.log(state.app.historical_data)
     return ({
         historical_data: state.app.historical_data
     });

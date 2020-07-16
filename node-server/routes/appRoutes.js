@@ -18,6 +18,8 @@ var T = new Twit({
 var graph = require('fbgraph');
 
 const { fetchByID, updateDocByID } = require('../utils/db_util');
+const { time } = require('console');
+const { filter } = require('bluebird');
 
 const twitter_fetch = (tag) => new Promise((resolve, reject) => {
     T.get('statuses/user_timeline', {
@@ -82,7 +84,7 @@ function timeconverter (time) {
     return `${day}/${month}/${year}`;
 }
 
-const analyzed_data_organizer = (data, db, id, type) => new Promise((resolve,reject)=> {
+const analyzed_data_organizer = (data, db, id, type, save=true) => new Promise((resolve,reject)=> {
     analysis_time = + new Date()
     complete_analysis_raw = data.map(x => x.sentiment)
     var complete_analysis = {};
@@ -126,6 +128,9 @@ const analyzed_data_organizer = (data, db, id, type) => new Promise((resolve,rej
         month_filtered_data,
         all_months
     }
+    if (!save) {
+        resolve(new_analysis);
+    }
     fetchByID(db, 'users', String(id))
     .then(data => {
         analysis = data.analysis;
@@ -161,6 +166,20 @@ const save_post_data = (db, id, type, data) => {
         updateDocByID(db, 'users', String(id), new_data) 
         }
     })
+}
+
+const combine_monthly_data = (data) => {
+    const result = {};
+    Object.values(data).forEach(basket => {
+        for (let [key, value] of Object.entries(basket)) {
+            if (result[key]) { 
+                result[key] += value; 
+            } else { 
+                result[key] = value;
+            }
+        }
+    });
+    return result;
 }
 
 module.exports = (app, db) => {
@@ -258,7 +277,57 @@ module.exports = (app, db) => {
                 .then(facebook_data => {
                     twitter_fetch(req.user.profile.twitterTag)
                     .then(twitter_data => {
-                        
+                        analyzed_data_organizer(facebook_data,db,req.user.profile._json.id,'facebook', false)
+                        .then(analyzed_facebook_data => {
+                            analyzed_data_organizer(twitter_data,db,req.user.profile._json.id,'twitter', false)
+                            .then(analyzed_twitter_data => {
+                                shared_months = analyzed_facebook_data.all_months.filter(value => analyzed_twitter_data.all_months.includes(value))
+                                if (!shared_months) {
+                                    res.status(400).send('Twitter and facebook data do not share month');
+                                }
+                                let t_time = + new Date();
+                                let filtered_twitter_data = {}
+                                shared_months.map(x => filtered_twitter_data[x] = analyzed_twitter_data.month_filtered_data[x]);
+                                let filtered_facebook_data = {}
+                                shared_months.map(x => filtered_facebook_data[x] = analyzed_facebook_data.month_filtered_data[x]);
+                                complete_analysis_data = {
+                                    id: t_time,
+                                    time: t_time,
+                                    type: 'complete',
+                                    shared_months,
+                                    facebook: {
+                                        complete_analysis: combine_monthly_data(filtered_facebook_data),
+                                        month_filtered_data: filtered_facebook_data
+                                    },
+                                    twitter: {
+                                        complete_analysis: combine_monthly_data(filtered_twitter_data),
+                                        month_filtered_data: filtered_twitter_data
+                                    }
+                                }
+                                fetchByID(db, 'users', String(req.user.profile._json.id))
+                                .then(data => {
+                                    analysis = data.analysis;
+                                    if (analysis == undefined) analysis = {};
+                                    analysis = {...analysis, [t_time]: complete_analysis_data};
+                                    data = {...data,analysis}
+                                    updateDocByID(db, 'users', String(req.user.profile._json.id), data)
+                                    .then((x) => {
+                                        res.send(complete_analysis_data)
+                                    })
+                                    .catch(error => {
+                                        res.status(500).send('Failed')
+                                    })
+                                })
+                            })
+                            .catch(err => {
+                                res.status(500).send('failed');
+                            })
+                        })
+                        .catch(err => {
+                            res.status(500).send('failed');
+                        })
+                        save_post_data(db,req.user.profile._json.id,'twitter', twitter_data);
+                        save_post_data(db,req.user.profile._json.id,'facebook', facebook_data);
                     })
                     .catch(error => {
                         res.status(500).send('failed')

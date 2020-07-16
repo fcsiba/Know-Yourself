@@ -2,7 +2,7 @@ import t from '../actions/types';
 
 const INITIAL_STATE = {
     sidemenu_open: false,
-    application_view: 'analysis'
+    application_view: 'history'
 }
 
 export default (state = INITIAL_STATE, action) => {
