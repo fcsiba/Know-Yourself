@@ -31,4 +31,4 @@ KYS is mobile-first web application that combines the power of social media and 
 - Run the `index.js` file in the `node-server` folder
 - Run `npm start` in the `client`folder
 
-Watch a demo of the project here => [a link](https://www.youtube.com/watch?v=zU9aX5eMllI
+[Watch Project Demo](https://www.youtube.com/watch?v=zU9aX5eMllI)
