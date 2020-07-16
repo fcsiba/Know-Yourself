@@ -14,6 +14,25 @@ const find_latest_report = (data) => {
     return data[max]
 }
 
+const complete_dominant_emotion_deriver = (fb_data, twitter_data) => {
+    if (fb_data && twitter_data){
+        let collect = [fb_data.complete_analysis, twitter_data.complete_analysis];
+        const result = {};
+        Object.values(collect).forEach(basket => {
+            for (let [key, value] of Object.entries(basket)) {
+                if (result[key]) { 
+                    result[key] += value; 
+                } else { 
+                    result[key] = value;
+                }
+            }
+        });
+        return dominant_emotion_deriver(result);
+    } else {
+        return '';
+    }
+}
+
 const dominant_emotion_deriver = (data) => {
     let dominant = '';
     let max_num = 0;
@@ -62,7 +81,7 @@ function HomeView(props) {
                 <Typography>Your last analysis report</Typography>
                 <Typography>performed at {time_formatter(latest_report.time)}</Typography>
                 <Typography>performed on {latest_report.type}</Typography>
-                <Typography><b>Dominant emotion: {dominant_emotion_deriver(latest_report.complete_analysis)}</b></Typography>
+                <Typography><b>Dominant emotion: {latest_report.type=='complete'?complete_dominant_emotion_deriver(latest_report.facebook, latest_report.twitter):dominant_emotion_deriver(latest_report.complete_analysis)}</b></Typography>
             </Paper>:null
             }
         </Container>

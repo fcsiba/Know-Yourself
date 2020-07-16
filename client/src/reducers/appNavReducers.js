@@ -2,7 +2,7 @@ import t from '../actions/types';
 
 const INITIAL_STATE = {
     sidemenu_open: false,
-    application_view: 'history'
+    application_view: 'home'
 }
 
 export default (state = INITIAL_STATE, action) => {
